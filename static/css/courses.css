@@ -1,0 +1,134 @@
+.sidebar {
+  display: none;
+}
+@media (min-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 51px;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    padding: 20px;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    background-color: #F8F8F8;
+    border-right: 1px solid #F3EB54;
+    
+  }
+}
+
+
+.col-md-2  .jumbotron {
+padding-left: 0px;
+margin-left: 18px;
+background-color: #F8F8F8;
+padding-top: 10px;
+}
+
+.col-md-2  .jumbotron > a, .col-md-2  .jumbotron > a:link, .col-md-2  .jumbotron > a:visited {
+	color: #777;
+	border-width: 0 0 0 0;
+	text-decoration: none;
+
+}
+
+.col-md-2  .jumbotron > a:hover, .col-md-2  .jumbotron > a:active {
+	color: #777;
+	border-width: 0 0 1 0;
+	border-style: solid;
+ border-bottom-color: #2EACB3;
+ text-decoration: none;
+}
+
+
+.main {
+  padding: 20px;
+}
+@media (min-width: 768px) {
+  .main {
+    padding-right: 40px;
+    padding-left: 40px;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+  }
+}
+.main .page-header {
+  margin-top: 0;
+}
+
+
+.col-sm-7, .col-md-7 {
+  padding-left: 1000px;
+}
+
+
+
+
+
+.btn-custom{
+    display: inline-block;
+    padding: 6 15 6 12;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    background-color: #FEC941;
+  color: white;
+}
+
+.btn-green{
+  background-color: #2EACB3;
+}
+
+
+
+.has-error .checkbox, .has-error .checkbox-inline, .has-error .help-block, .has-error .radio, .has-error .radio-inline, .has-error.checkbox label, .has-error.checkbox-inline label, .has-error.radio label, .has-error.radio-inline label {
+    color: #2EACB3;
+}
+
+
+.has-error .control-label{
+  color:black;
+}
+
+.has-error .form-control {
+    border-color: #FEC941;
+   
+}
+
+
+
+.custom .panel-body a {
+  color:black;
+}
+
+.custom .panel-body a:hover {
+  text-decoration:none;
+  border-width: 0 0 1 0;
+ border-style: solid;
+ border-bottom-color: #2EACB3;
+ padding-bottom: 5;
+}
+
+
+.nav-tabs>li>a {
+  color: #2EACB3;
+}
+
+
+.thumbnail{
+  border-color:#F3EB54;
+}

@@ -1,0 +1,25 @@
+{% extends "base.html"%}
+{% load staticfiles %}
+
+ {% block title %} Courses {% endblock title %}
+
+{% block style_links %} 
+    <link rel="stylesheet"  href='{% static "css/courses.css" %}'> 
+{% endblock style_links %}
+
+{% block main %}
+<div class="row" style="margin:20 15">
+   {% for course in courses_list%}
+  <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <a href="{% url 'courses:course_description' course.slug %}">
+            <img src="{{ course.image.url }}" alt="{{ course.name }}" style="height:300;width:440;">
+      <div class="caption">
+        <h3>{{ course.name }}</h3>
+      </div>
+      <a>
+    </div>
+  </div>
+     {% endfor %} 
+</div>
+{% endblock main%}

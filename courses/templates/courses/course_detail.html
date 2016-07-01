@@ -1,0 +1,180 @@
+ {% extends "base.html"%}
+{% load staticfiles %}
+
+ {% block title %} {{ course.name }} {% endblock title %}
+
+{% block style_links %} 
+    <link rel="stylesheet"  href='{% static "css/courses.css" %}'> 
+{% endblock style_links %}
+
+{% block side %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <div class="panel-group" id="accordion">
+{% if course%}
+<div class="custom">
+              <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a href="{% url 'courses:course_detail' course.slug %}" ><span class="glyphicon glyphicon-home"></span>
+                             Home</a></h4></div></div>
+                {% if is_professor %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a href="{% url 'courses:course_student' course.slug %}" ><span class="glyphicon glyphicon-user"></span>
+                             Students</a></h4></div></div>
+                {% endif %}
+            {% for chapter in course.chapter_set.all %}
+<div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#{{ chapter.slug }}" >
+                            Chapter {{ forloop.counter }}: {{chapter.name}}</a>
+                                {% if is_professor%}
+                                <hr>
+                                <a href="{% url 'courses:edit_chapter' course.slug chapter.slug %}" title="Edit this chapter" style="padding-right:5" ><span class="glyphicon glyphicon-pencil"></span></a>
+                                        <a href="#" data-href="{% url 'courses:delete_chapter' course.slug chapter.slug %}" data-toggle="modal" data-target="#confirm-delete" title="Delete this chapter"  ><span class="glyphicon glyphicon-trash"></span></a>
+                                {% endif %}
+                        </h4>
+                    </div>
+                    <div id="{{ chapter.slug }}" class="panel-collapse collapse">     
+                    <div class="panel-body">
+                            <table class="table">
+                                {% for lesson in chapter.lesson_set.all %}
+                                <tr>
+                                    <td>
+                                        <a href="{% url 'courses:lesson' course.slug chapter.slug lesson.slug %}">{{ lesson }}</a>
+                                    </td>                                
+                                </tr>
+                                {% endfor %}
+                                {% if is_professor%}
+                                     <td>
+                                        <a href="{% url 'courses:add_lesson' course.slug chapter.slug %}" style="font-size:14px;color:#777"><span class="glyphicon glyphicon-plus" style="color:#FEC941;"></span>Add new lesson</a>
+                                    </td>    
+                                    {% endif %}
+                            </table>
+                        </div>                   
+                </div>
+</div>
+            {% endfor %}
+            {% if is_professor%}
+            <div class="panel panel-default">
+                    <div class="panel-heading">                        
+                            <a href="{% url 'courses:add_chapter' course.slug %}" style="color:#777">
+                            <span class="glyphicon glyphicon-plus" style="color:#FEC941;"></span>Add new chapter</a>                      
+                    </div>
+            </div>
+            {% endif %}
+</div>
+{% endif %}
+</div>           
+        </div>
+    </div>
+</div>
+{% endblock side%}
+
+{% block main %}
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">{{ course.name }}</h1>
+          <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#informations">Informations</a></li>
+    <li><a data-toggle="tab" href="#notifications">Notifications</a></li>    
+  </ul>
+  <div class="tab-content">
+    <div id="informations" class="tab-pane fade in active" style="margin:10 10;">
+        {% if is_professor %}
+      <div class="row">
+        <span class="pull-right"><a href="{% url 'courses:edit_course' course.slug %}" class="btn-custom" style="margin-right:10;">Edit</a>
+            <a href="#" data-href="{% url 'courses:delete_course' course.slug %}" data-toggle="modal" data-target="#confirm-delete" title="Delete this course" class="btn-custom" ><span class="glyphicon glyphicon-trash"></span> Delete this course</a></span>
+      </div>
+      <hr>
+      {% endif %}
+<div class="row" style="margin: 15 0 0 0;">  
+<div class="col-sm-8 col-md-8" style="padding-right:20"> {{ course.description }}</div>
+<div class = "col-sm-4 col-md-4" style="padding:0">
+<table class="table table-bordered table-hover table-responsive">
+    <tbody> 
+    <tr>
+        <td><span class="glyphicon glyphicon-user"></span>  Author</td>
+        <td>{{ course.professor.get_full_name}} </td>
+    </tr>
+    <tr>
+        <td><span class="glyphicon glyphicon-book"></span>  Subject</td>
+        <td>{{ course.subject }} </td>
+    </tr>
+    <tr>
+        <td><span class="glyphicon glyphicon-education"></span>  Institution</td>
+        <td>{{ course.institution }} </td>
+    </tr>
+    </tbody>
+</table>
+</div>
+</div>
+    </div>
+    <div id="notifications" class="tab-pane fade" style="margin:10 10;">
+      {% if is_professor %}
+      <div class="row">
+        <span class="pull-right"><a href="{% url 'courses:add_notification' course.slug %}" class="btn-custom">Add new notification</a>
+            </span>
+      </div>
+      <hr>
+      {% endif %}
+      {% for notification in course.notification_set.all%}
+      <div class="panel panel-default">
+  <div class="panel-heading">{{ notification.name}}</div>
+  <div class="panel-body">
+ {% if is_professor %}
+      <div class="row">
+        <span class="pull-right"><a href="{% url 'courses:edit_notification' course.slug  notification.slug %}" class="btn-custom" style="margin-right:10;">Edit</a>
+            <a href="#" data-href="{% url 'courses:delete_notification' course.slug  notification.slug %}" data-toggle="modal" data-target="#confirm-delete" title="Delete this notification" class="btn-custom" ><span class="glyphicon glyphicon-trash"></span> Delete this notification</a></span>
+      </div>
+      <hr>
+      {% endif %}
+      {{ notification.text }}
+   </div>
+  <div class="panel-footer">{{ notification.modified }}</div>
+</div>
+      {% endfor %}     
+    </div>    
+  </div>
+</div>
+{% endblock main %}
+
+{% if is_professor %}
+{% block hidden%}
+  <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
+                </div>           
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this item?</p>                    
+                </div>               
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-danger btn-ok" id="btnok">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock hidden %}
+
+{% block script %}
+ <script>
+        $('#confirm-delete').on('show.bs.modal', function(e) {
+            $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+            
+            $('.debug-url').html('Delete URL: <strong>' + $(this).find('.btn-ok').attr('href') + '</strong>');
+        });
+    </script>   
+{% endblock script %}
+{% endif %}
+
+
+
+
+

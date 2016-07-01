@@ -1,0 +1,57 @@
+{% extends "courses/course_detail.html"%}
+
+{% block title %} {{ lesson.name}} {% endblock title %}
+
+{% block main %}
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">{{ lesson.name }}</h1>
+          {% if is_professor %}
+      <div class="row">
+        <span class="pull-right"><a href="{% url 'courses:edit_lesson' course.slug lesson.chapter.slug lesson.slug %}" title="Edit this lesson" class="btn-custom" style="margin-right:10;">Edit</a>
+            <a href="#" data-href="{% url 'courses:delete_lesson' course.slug lesson.chapter.slug lesson.slug %}" data-toggle="modal" data-target="#confirm-delete" title="Delete this lesson" class="btn-custom" ><span class="glyphicon glyphicon-trash"></span> Delete this lesson</a></span>
+      </div>
+      <hr>
+      {% endif %}
+{% if lesson.video_link %}
+<div class="row">
+<div class="col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2">
+<div class="embed-responsive embed-responsive-16by9">
+<iframe class="embed-responsive-item" width="560" height="315" src="{{ lesson.video_link }}"  allowfullscreen></iframe>
+</div>
+</div>
+</div>
+<hr>
+{% endif %}
+
+<div class="row">
+  <div class="col-sm-8 col-md-8">
+   <div class="table-responsive">
+  <table class="table">
+    <tr>
+      <th>Files</th>
+      {% if is_professor %}
+      <th><a href="{% url 'courses:add_file' course.slug lesson.chapter.slug lesson.slug %}" title="Add pdf file" class="btn-custom" style="margin-right:10;"><span class="glyphicon glyphicon-plus"></span>Add pdf file</a>  </th>
+       {% endif %}
+      </tr>
+    {% for file in pdffiles%}
+
+<tr>
+  <th>
+  <a href="{{file.pdf_file.url}}" target="_blank">{{file}}</a>
+  </th>
+  {% if is_professor%}
+  <th>
+    <a href="#" data-href="{% url 'courses:delete_pdf_file' course.slug lesson.chapter.slug lesson.slug file.slug %}" data-toggle="modal" data-target="#confirm-delete" title="Delete this file" class="btn-custom" ><span class="glyphicon glyphicon-trash"></span> </a>
+  </th>
+  {% endif%}
+</tr>
+
+    {% endfor %}
+  </table>
+</div>
+</div>     
+          
+</div>
+<hr>
+{% autoescape off %}{{ lesson.text }}{% endautoescape %}
+ {% endblock main %}

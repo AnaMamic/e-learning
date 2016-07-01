@@ -1,0 +1,35 @@
+{% extends "base.html"%}
+{% load staticfiles %}
+
+ {% block title %} {{ course.name }} {% endblock title %}
+
+{% block style_links %} 
+    <link rel="stylesheet"  href='{% static "css/courses.css" %}'> 
+{% endblock style_links %}
+
+{% block main %}
+<div class="col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 main">
+    <h1 class="page-header">{{ course.name }}</h1>
+    <div class="row" style="margin: 15 0 0 0;">
+        <div class="col-sm-8 col-md-8" style="padding-right:20"> {{ course.description }}</div>
+        <div class = "col-sm-4 col-md-4" style="padding:0">
+        <table class="table table-bordered table-hover table-responsive">
+            <tbody>
+            <tr>
+                <td><span class="glyphicon glyphicon-user"></span>  Author</td>
+                <td>{{ course.professor.get_full_name}} </td>
+            </tr>
+             <tr>
+                <td><span class="glyphicon glyphicon-book"></span>  Subject</td>
+                <td>{{ course.subject }} </td>
+            </tr>
+            <tr>
+                <td><span class="glyphicon glyphicon-education"></span>  Institution</td>
+                <td>{{ course.institution }} </td>
+            </tr>
+            </tbody>
+        </table>
+        </div>
+    </div>
+</div>
+{% endblock main%}

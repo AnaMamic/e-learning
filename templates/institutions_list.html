@@ -1,0 +1,5 @@
+{% for institution in institutions %} 
+  <li><a href="{% url 'institutions:institution_courses' institution.slug %}">{{institution}}</a></li>
+{% empty %}
+  Empty list
+{% endfor %}

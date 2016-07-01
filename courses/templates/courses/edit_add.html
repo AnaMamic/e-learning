@@ -1,0 +1,54 @@
+{% extends "courses/course_detail.html"%}
+{% load crispy_forms_tags %}
+
+ {% block title %} {{ title }} {% endblock title %}
+
+{% block style_links %} 
+{% if add_students%}
+<link rel="stylesheet" type="text/css" href="/static/css/style.css" >
+<script type="text/javascript" src="/static/admin/js/jquery.min.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
+{% endif %} 
+<link rel="stylesheet"  href="/static/css/courses.css">
+{% endblock style_links %}
+
+{% block main %}
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">{{ title}}</h1>
+{% if is_course %}
+<div class="row">
+    {% if course %}
+        <span class="pull-right"><a href="{% url 'institutions:add_institution' course.slug %}" class="btn-custom" style="margin-right:10; " ><span class="glyphicon glyphicon-plus"></span>Add new institution</a><a href="{% url 'subjects:add_subject' course.slug %}" class="btn-custom"><span class="glyphicon glyphicon-plus"></span>Add new subject</a></span>
+  {% else %}
+    <span class="pull-right"><a href="{% url 'institutions:add_institution' %}" class="btn-custom" style="margin-right:10; " ><span class="glyphicon glyphicon-plus"></span>Add new institution</a><a href="{% url 'subjects:add_subject' %}" class="btn-custom"><span class="glyphicon glyphicon-plus"></span>Add new subject</a></span>
+      {% endif %}
+</div>
+<hr>
+{% endif %}
+<div class="col-sm-5 col-sm-offset-4 col-md-5 col-md-offset-3">      
+    <form class= "form-horizontal " action="" method="post" enctype="multipart/form-data" >
+  {% csrf_token %}
+ {{ form.media }}
+    {{ form|crispy }}
+    <hr>
+    <div class="row">
+        <div class="col-sm-1 col-sm-offset-4 col-md-1 col-md-offset-4">
+           {% if course%}
+           {% if lesson %}
+          <a href="{% url cancel course.slug lesson.chapter.slug lesson.slug %}" class="btn-custom">
+           {% else %}
+            <a href="{% url cancel course.slug %}" class="btn-custom">
+          {% endif%}
+            {% else %}
+            <a href="{% url cancel %}" class="btn-custom">
+            {% endif %}
+            Cancel</a>
+        </div>
+        <div class="col-sm-1 col-sm-offset-1 col-md-1 col-md-offset-1">
+        <button type="submit" class="btn-custom btn-green">Submit</button> 
+        </div>
+          </form>
+    </div>
+</div>
+</div>
+{% endblock main %}

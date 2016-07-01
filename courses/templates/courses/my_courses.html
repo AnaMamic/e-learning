@@ -1,0 +1,49 @@
+ {% extends "base.html"%}
+{% load staticfiles %}
+
+ {% block title %} My courses {% endblock title %}
+
+{% block style_links %} 
+<link rel="stylesheet"  href='{% static "css/courses.css" %}'> 
+{% endblock style_links %}
+
+ {% block side %}
+{% if is_professor %}
+<div class="col-sm-3 col-md-2 sidebar">
+  <div class="jumbotron">
+  <a href="{% url 'courses:create' %}" title="create new course" ><span class="glyphicon glyphicon-plus" style="color:#FEC941;"aria-hidden="false"></span> Add new course</a>
+  </div>
+</div>
+{% endif %}
+{% endblock side %}
+
+{% block main %}
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">My Courses</h1>
+{% if courses_list %}
+{% for course in courses_list %}
+          <div class="row" style="background-color: #F8F8F8;">
+            <div class="col-sm-7 col-md-7" style="padding-left: 0px;">
+              <img src="{{ course.image.url }}" width="600" height="300"  alt="{{ course.name }}">
+            </div>
+            <div class="col-sm-5 col-md-5 " style="height:300">
+              <div class="row">
+              <h3>{{ course.name }}</h3>               
+                <p>{{ course.description|truncatewords:50 }}</p>
+              </div>
+              <div class="row" >             
+                <a class="btn btn-custom"  href="{% url 'courses:course_detail' course.slug %}" >View Course <span class="glyphicon glyphicon-chevron-right"></span></a> </div>              
+            </div>
+          </div>
+            <hr>
+{% endfor %}
+{% else %}
+<p> You don't have any courses</p>  
+ {% endif %}                           
+</div>
+{% endblock main %}
+
+
+
+
+
