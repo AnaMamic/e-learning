@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block main %}
+<div class="col-sm-6 col-sm-offset-1">
+	<div>
+		<h3>Registration complete!</h3>
+		<br>
+		<p>You can now <a href="{% url 'user_auth:login' %}">login.</a></p>
+	</div>
+</div>
+{% endblock %}
